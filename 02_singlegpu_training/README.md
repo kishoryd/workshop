@@ -20,9 +20,9 @@ This step configures the environment to use `line_profiler` for analyzing the co
 
 ```bash
 $ module load miniconda
-$ conda activate 
+$ conda activate workshop
 ```
-
+Install Miniconda if not installed previously
 
 ## **Step 2: Download the MNIST Dataset**
 
