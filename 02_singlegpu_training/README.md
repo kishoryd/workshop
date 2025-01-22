@@ -250,7 +250,7 @@ $ conda activate workshop
 $ pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117
 $ conda install line_profiler --channel conda-forge
 ```
-
+Note: These packages are installed based on underlying system architecture. Changes based should be made accordingly
 
 ## **Summary**
 
