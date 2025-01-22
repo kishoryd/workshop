@@ -85,7 +85,7 @@ module purge
 module load miniconda
 
 # Activate the Conda environment
-conda activate gujcost_workshop
+conda activate workshop
 
 # Run the script
 kernprof -o ${SLURM_JOBID}_${SLURM_CPUS_PER_TASK}.lprof -l mnist_multigpu.py --epochs=5
@@ -94,7 +94,7 @@ kernprof -o ${SLURM_JOBID}_${SLURM_CPUS_PER_TASK}.lprof -l mnist_multigpu.py --e
 Submit the job:
 
 ```bash
-(gujcost_workshop) $ sbatch slurm_submit.sh
+(workshop) $ sbatch slurm_submit.sh
 ```
 
 ### Monitor GPU and System Performance
@@ -113,7 +113,7 @@ $ top -u <hpcusername>
 After the job completes, analyze the profiling results:
 
 ```bash
-(gujcost_workshop) $ python -m line_profiler -rmt <job_id>_<slurmtask>.lprof
+(workshop) $ python -m line_profiler -rmt <job_id>_<slurmtask>.lprof
 ```
 
 ---
