@@ -50,6 +50,6 @@ This repository provides a comprehensive guide and practical examples for traini
 
 ---
 ## **NOTE**
-- If you are already familiar with deep learning with PyTorch, you can skip [01. Introduction to Deep Learning](./01_introduction_to_deeplearning/) and go directly to [02. Single-GPU Training](./02_singlegpu_training/).
+- If you are already familiar with deep learning with PyTorch, you can skip [01. Introduction to Deep Learning](./01_introduction/) and go directly to [02. Single-GPU Training](./02_singlegpu_training/).
 ---
 
