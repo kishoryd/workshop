@@ -105,7 +105,7 @@ def train(args, model, train_loader, optimizer, epoch, rank):
 
 ## **Step 3: DDP Slurm Script**
 
-Create a Slurm submission script (`slurm_submit_ddp.sh`) to configure and execute the DDP script:
+Create a Slurm submission script (`slurm_submit.sh`) to configure and execute the DDP script:
 
 ```bash
 #!/bin/bash
@@ -114,7 +114,7 @@ Create a Slurm submission script (`slurm_submit_ddp.sh`) to configure and execut
 #SBATCH --ntasks=2                 # Number of tasks (one per GPU)
 #SBATCH --gres=gpu:2               # Number of GPUs on the node
 #SBATCH --cpus-per-task=1         # Number of CPU cores per task
-#SBATCH --reservation=hpcai      # Reservation incase of urgent requirement
+##SBATCH --reservation=hpcai      # Reservation incase of urgent requirement
 ##SBATCH --nodelist=rpgpu*        # Specify reservation GPU node name provided
 #SBATCH --partition=gpu            # GPU partition
 #SBATCH --output=logs_%j.out       # Output log file
@@ -202,6 +202,9 @@ srun torchrun \
     --rdzv_endpoint=$MASTER_ADDR:$MASTER_PORT \
     mnist_ddpmodel.py --epochs=5 --batch-size=128
 
+```
+```bash
+(workshop) $ sbatch multinode.sh
 ```
 
 ---
