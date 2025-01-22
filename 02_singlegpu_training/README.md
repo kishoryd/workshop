@@ -3,7 +3,7 @@
 Optimizing your script for a single GPU is a crucial first step before scaling to multiple GPUs. Inefficient single-GPU code may result in wasted resources and longer queue times when running multi-GPU jobs. This example demonstrates how to train a CNN on the MNIST dataset using a single GPU and profile the training process for performance improvements.
 
 ```bash
-$ ssh username@ipadress
+$ ssh username@ipaddress
 $ mkdir <wk-<name>>
 $ cd <wk-<name>>
 $ git clone https://github.com/kishoryd/DistributedTraining.git
