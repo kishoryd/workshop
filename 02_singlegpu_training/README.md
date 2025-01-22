@@ -6,7 +6,7 @@ Optimizing your script for a single GPU is a crucial first step before scaling t
 $ ssh username@ipaddress
 $ mkdir <wk-<name>>
 $ cd <wk-<name>>
-$ git clone https://github.com/kishoryd/DistributedTraining.git
+$ git clone https://github.com/kishoryd/workshop.git
 ```
 Replace <hpcaiuser> with user account created for participants
 ---
