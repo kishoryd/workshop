@@ -3,7 +3,7 @@
 Optimizing your script for a single GPU is a crucial first step before scaling to multiple GPUs. Inefficient single-GPU code may result in wasted resources and longer queue times when running multi-GPU jobs. This example demonstrates how to train a CNN on the MNIST dataset using a single GPU and profile the training process for performance improvements.
 
 ```bash
-$ ssh <hpcaiuser>@14.139.62.247 -p 4422
+$ ssh ip -p 4422
 $ mkdir <wk-<name>>
 $ cd <wk-<name>>
 $ git clone https://github.com/kishoryd/DistributedTraining.git
@@ -20,7 +20,7 @@ This step configures the environment to use `line_profiler` for analyzing the co
 
 ```bash
 $ module load miniconda
-$ conda activate gujcost_workshop
+$ conda activate 
 ```
 
 
@@ -29,8 +29,8 @@ $ conda activate gujcost_workshop
 Ensure the dataset is downloaded on the login node since compute nodes typically lack internet access:
 
 ```bash
-(gujcost_workshop) $ cd DistributedTraining/02_singlegpu_training
-(gujcost_workshop) $ python download_data.py
+() $ cd DistributedTraining/02_singlegpu_training
+() $ python download_data.py
 ```
 
 
@@ -41,7 +41,7 @@ Ensure the dataset is downloaded on the login node since compute nodes typically
 Navigate to the directory and view the content of the training script:
 
 ```bash
-(gujcost_workshop) $ cat mnist_model.py
+() $ cat mnist_model.py
 ```
 Analyze the code for a better understanding of its structure and workflow.
 
@@ -180,7 +180,7 @@ module purge #remove unneccesary loaded modules
 module load miniconda
 
 #activate the environment
-conda activate gujcost_workshop
+conda activate workshop
 
 #Try both the option, See the performance
 
@@ -190,7 +190,7 @@ kernprof -o ${SLURM_JOBID}_${SLURM_CPUS_PER_TASK}.lprof -l mnist_model.py --epoc
 Submit the job:
 
 ```bash
-(gujcost_workshop) $ sbatch slurm_submit.sh
+() $ sbatch slurm_submit.sh
 ```
 
 ### Monitor GPU and System Performance
@@ -209,20 +209,20 @@ This will help you observe GPU utilization and thread/process spawning during ex
 After the job completes, analyze the profiling results:
 
 ```bash
-(gujcost_workshop) $ python -m line_profiler -rmt <job_id>_<slurmtask>.lprof
+() $ python -m line_profiler -rmt <job_id>_<slurmtask>.lprof
 ```
 
 ---
 ---
 
-## **Assignments**
+## **Tasks**
 
 Note: To edit the files use nano editor in linux environment
 
 ### use nano editor to edit files
 
 ```bash
-(gujcost_workshop) $ nano mnist_model.py
+() $ nano mnist_model.py
 ```
 and make changes as per assignment `ctrl + x` and type `yes` then `Enter`
 
@@ -246,7 +246,7 @@ and make changes as per assignment `ctrl + x` and type `yes` then `Enter`
 ```bash
 $ module load miniconda
 $ conda create --name workshop python=3.9 --yes
-$ conda activate gujcost_workshop
+$ conda activate workshop
 $ pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117
 $ conda install line_profiler --channel conda-forge
 ```
