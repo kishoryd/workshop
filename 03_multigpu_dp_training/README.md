@@ -15,7 +15,7 @@ Follow the steps outlined in the [Single-GPU Training Guide](../02_singlegpu_tra
 Navigate to the multi-GPU directory:
 
 ```bash
-$ cd DistributedTraining/03_multigpu_dp_training
+$ cd workshop/03_multigpu_dp_training
 ```
 
 This directory contains the modified script and configurations for multi-GPU training.
