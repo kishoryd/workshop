@@ -203,6 +203,7 @@ srun torchrun \
     mnist_ddpmodel.py --epochs=5 --batch-size=128
 
 ```
+
 ```bash
 (workshop) $ sbatch multinode.sh
 ```
