@@ -29,7 +29,7 @@ Install Miniconda if not installed previously
 Ensure the dataset is downloaded on the login node since compute nodes typically lack internet access:
 
 ```bash
-(workshop) $ cd DistributedTraining/02_singlegpu_training
+(workshop) $ cd workshop/02_singlegpu_training
 (workshop) $ python download_data.py
 ```
 
