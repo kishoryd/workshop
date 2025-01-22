@@ -3,7 +3,7 @@
 Optimizing your script for a single GPU is a crucial first step before scaling to multiple GPUs. Inefficient single-GPU code may result in wasted resources and longer queue times when running multi-GPU jobs. This example demonstrates how to train a CNN on the MNIST dataset using a single GPU and profile the training process for performance improvements.
 
 ```bash
-$ ssh ip -p 4422
+$ ssh username@ipadress
 $ mkdir <wk-<name>>
 $ cd <wk-<name>>
 $ git clone https://github.com/kishoryd/DistributedTraining.git
@@ -29,8 +29,8 @@ $ conda activate
 Ensure the dataset is downloaded on the login node since compute nodes typically lack internet access:
 
 ```bash
-() $ cd DistributedTraining/02_singlegpu_training
-() $ python download_data.py
+(workshop) $ cd DistributedTraining/02_singlegpu_training
+(workshop) $ python download_data.py
 ```
 
 
@@ -41,7 +41,7 @@ Ensure the dataset is downloaded on the login node since compute nodes typically
 Navigate to the directory and view the content of the training script:
 
 ```bash
-() $ cat mnist_model.py
+(workshop) $ cat mnist_model.py
 ```
 Analyze the code for a better understanding of its structure and workflow.
 
@@ -190,7 +190,7 @@ kernprof -o ${SLURM_JOBID}_${SLURM_CPUS_PER_TASK}.lprof -l mnist_model.py --epoc
 Submit the job:
 
 ```bash
-() $ sbatch slurm_submit.sh
+(workshop) $ sbatch slurm_submit.sh
 ```
 
 ### Monitor GPU and System Performance
@@ -209,7 +209,7 @@ This will help you observe GPU utilization and thread/process spawning during ex
 After the job completes, analyze the profiling results:
 
 ```bash
-() $ python -m line_profiler -rmt <job_id>_<slurmtask>.lprof
+(workshop) $ python -m line_profiler -rmt <job_id>_<slurmtask>.lprof
 ```
 
 ---
@@ -222,7 +222,7 @@ Note: To edit the files use nano editor in linux environment
 ### use nano editor to edit files
 
 ```bash
-() $ nano mnist_model.py
+(workshop) $ nano mnist_model.py
 ```
 and make changes as per assignment `ctrl + x` and type `yes` then `Enter`
 
