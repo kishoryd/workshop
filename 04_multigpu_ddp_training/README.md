@@ -7,11 +7,11 @@ This guide explains how to train a CNN on the MNIST dataset using PyTorch's Dist
 ## **Prerequisites**
 
 1. Follow the steps in the [Single-GPU Training Guide](../02_singlegpu_training/) to set up your environment and repository.
-2. Ensure the `gujcost_workshop` Conda environment is activated.
+2. Ensure the `workshop` Conda environment is activated.
 
 ```bash
 $ module load miniconda
-$ conda activate gujcost_workshop
+$ conda activate workshop
 ```
 Follow download steps of DATA from single GPU given previously
 ---
@@ -114,6 +114,8 @@ Create a Slurm submission script (`slurm_submit_ddp.sh`) to configure and execut
 #SBATCH --ntasks=2                 # Number of tasks (one per GPU)
 #SBATCH --gres=gpu:2               # Number of GPUs on the node
 #SBATCH --cpus-per-task=1         # Number of CPU cores per task
+#SBATCH --reservation=hpcai      # Reservation incase of urgent requirement
+##SBATCH --nodelist=rpgpu*        # Specify reservation GPU node name provided
 #SBATCH --partition=gpu            # GPU partition
 #SBATCH --output=logs_%j.out       # Output log file
 #SBATCH --error=logs_%j.err        # Error log file
@@ -127,11 +129,8 @@ echo "Using GPUs: $CUDA_VISIBLE_DEVICES"
 module purge
 module load miniconda
 
-module load spack
-spack load gcc@12.3.0
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/libstdc++.so.6
 # Activate the Conda environment
-conda activate gujcost_workshop
+conda activate workshop
 
 # Set environment variables for DDP
 export MASTER_ADDR=localhost       # Use localhost for single node
@@ -149,13 +148,60 @@ echo "WORLD_SIZE: $WORLD_SIZE"
 echo "RANK: $RANK"
 
 # Run the script with kernprof
-torchrun --nproc_per_node=2 mnist_ddpmodel.py --epochs=5 --batch-size=64
+torchrun --nproc_per_node=2 mnist_ddpmodel.py --epochs=5 --batch-size=128
+
 ```
 
 Submit the job:
 
 ```bash
-(gujcost_workshop) $ sbatch slurm_submit_ddp.sh
+(workshop) $ sbatch slurm_submit.sh
+```
+```
+#!/bin/bash
+#SBATCH --job-name=mnist_multi     # Job name
+#SBATCH --nodes=2                  # Number of nodes
+#SBATCH --ntasks-per-node=2        # Number of tasks (one per GPU per node)
+#SBATCH --gres=gpu:2               # Number of GPUs on each node
+#SBATCH --cpus-per-task=1          # Number of CPU cores per task
+#SBATCH --partition=gpu            # GPU partition
+#SBATCH --output=logs_%j.out       # Output log file
+#SBATCH --error=logs_%j.err        # Error log file
+#SBATCH --time=00:20:00            # Time limit
+
+# Define variables for distributed setup
+nodes_array=($(scontrol show hostnames $SLURM_JOB_NODELIST))
+head_node=${nodes_array[0]}
+head_node_ip=$(srun --nodes=1 --ntasks=1 -w "$head_node" hostname --ip-address)
+
+echo "Head node IP: $head_node_ip"
+# Set environment variables for PyTorch distributed training
+export MASTER_ADDR=$head_node_ip   # Set the master node IP address
+export MASTER_PORT=12355           # Any available port
+export WORLD_SIZE=$(($SLURM_NNODES * $SLURM_GPUS_ON_NODE))
+export RANK=$SLURM_PROCID          # Rank of the current process
+export LOGLEVEL=INFO               # Log level for debugging
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
+
+# Log environment variables for debugging
+echo "MASTER_ADDR: $MASTER_ADDR"
+echo "MASTER_PORT: $MASTER_PORT"
+echo "WORLD_SIZE: $WORLD_SIZE"
+echo "RANK: $RANK"
+
+# Load required modules and activate Conda environment
+module purge
+module load miniconda
+conda activate workshop
+
+# Run the PyTorch script with torchrun
+srun torchrun \
+    --nnodes=$SLURM_NNODES \
+    --nproc_per_node=2 \
+    --rdzv_backend=c10d \
+    --rdzv_endpoint=$MASTER_ADDR:$MASTER_PORT \
+    mnist_ddpmodel.py --epochs=5 --batch-size=128
+
 ```
 
 ---
