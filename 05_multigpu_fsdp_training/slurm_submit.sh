@@ -5,7 +5,7 @@
 #SBATCH --nodes=1                     # Single node
 #SBATCH --ntasks=2                    # One task
 #SBATCH --partition=gpu		      # partition GPU
-#SBATCH --reservation=hpcai      # Reservation incase of urgent requirement
+##SBATCH --reservation=hpcai      # Reservation incase of urgent requirement
 ##SBATCH --nodelist=rpgpu*        # Specify reservation GPU node name provided
 #SBATCH --cpus-per-task=10            # Number of CPU cores per task
 #SBATCH --gres=gpu:2                  # Number of GPUs
@@ -17,7 +17,7 @@ module purge
 module load miniconda
 
 # Activate the Conda environment
-conda activate gujcost_workshop
+conda activate workshop
 
 # Total batch size and per-device batch size
 total_batch_size=${TOTAL_BATCH_SIZE:-8}  # Adjust as per your training needs
