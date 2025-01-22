@@ -17,7 +17,7 @@ head_node_ip=$(srun --nodes=1 --ntasks=1 -w "$head_node" hostname --ip-address)
 echo "Head node IP: $head_node_ip"
 # Set environment variables for PyTorch distributed training
 export MASTER_ADDR=$head_node_ip   # Set the master node IP address
-export MASTER_PORT=12355           # Any available port
+export MASTER_PORT=50128           # Any available port
 export WORLD_SIZE=$(($SLURM_NNODES * $SLURM_GPUS_ON_NODE))
 export RANK=$SLURM_PROCID          # Rank of the current process
 export LOGLEVEL=INFO               # Log level for debugging
@@ -35,9 +35,10 @@ module load miniconda
 conda activate workshop
 
 # Run the PyTorch script with torchrun
-srun torchrun \
+time srun torchrun \
     --nnodes=$SLURM_NNODES \
     --nproc_per_node=2 \
     --rdzv_backend=c10d \
+    --rdzv_id=269 \
     --rdzv_endpoint=$MASTER_ADDR:$MASTER_PORT \
     mnist_ddpmodel.py --epochs=5 --batch-size=128
