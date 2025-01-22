@@ -26,14 +26,14 @@ This demo is only meant to illustrate a simple and transparent training run with
    Install the required packages in a Conda environment:
    ```bash
    $ module load miniconda
-   $ conda activate gujcost_workshop
+   $ conda activate workshop
 
    ```
 
 2. **Download Models:**
    Since compute nodes may not have internet access, pre-download the models:
    ```bash
-   (gujcost_workshop) $ python downloadmodel.py
+   (workshop) $ python downloadmodel.py
    ```
 
 3. **FSDP Wrapping:**
@@ -78,7 +78,7 @@ module purge
 module load miniconda
 
 # Activate the Conda environment
-conda activate gujcost_workshop
+conda activate workshop
 
 # Batch size configuration
 TOTAL_BATCH_SIZE=8
