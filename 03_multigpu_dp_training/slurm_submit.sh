@@ -21,7 +21,7 @@ module purge
 module load miniconda
 
 # Activate the Conda environment
-conda activate gujcost_workshop
+conda activate workshop
 
 # Run the script
 kernprof -o ${SLURM_JOBID}_${SLURM_CPUS_PER_TASK}.lprof -l mnist_multigpu.py --epochs=5 --batch-size=128
